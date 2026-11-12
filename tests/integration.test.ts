@@ -12,6 +12,7 @@ import { houseToJSON, parseHouse } from '../src/core/persistence.ts'
 import { addOpening, openingsForWall, wallLength, findWallNear, snapPoint } from '../src/core/house.ts'
 import { wallPieces } from '../src/view3d/wallGeometry.ts'
 import { resolvePlacement } from '../src/core/placement.ts'
+import { hitTest } from '../src/editor2d/hit.ts'
 
 const s = () => useStore.getState()
 
@@ -236,6 +237,24 @@ test('projects saved before tilt existed still load', () => {
   }
   const restored = parseHouse(JSON.stringify(legacy))
   assert.deepEqual(Object.values(restored.objects)[0].tilt, { x: 0, z: 0 })
+})
+
+test('clicking beside a door picks what is actually there', () => {
+  s().newProject()
+  drawRectangle(0, 0, 6, 4)
+  const bottom = findWallNear(s().house, { x: 3, y: 4 }, 0.2)
+  assert.ok(bottom)
+  s().addWallOpening(bottom.id, 'door', 0.5)
+  s().beginPlacing(CATALOG_BY_ID.sofa)
+  s().placeObject({ x: 3.4, y: 0, z: 3.4 }, 0)
+
+  const house = s().house
+  // on the wall, inside the door span → the door
+  assert.equal(hitTest(house, { x: 3, y: 4 }, 0.08).kind, 'opening')
+  // 0.6 m off the wall, on the sofa → the sofa, not the door
+  const beside = hitTest(house, { x: 3.4, y: 3.4 }, 0.08)
+  assert.equal(beside.kind, 'object')
+  assert.equal(house.objects[beside.id].name, 'Sofa')
 })
 
 test('undo and redo step through structural and furniture edits', () => {

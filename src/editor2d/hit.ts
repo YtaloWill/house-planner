@@ -35,6 +35,11 @@ export function objectCorners(
  */
 export function hitTest(h: House, p: Vec2, tol: number): Selection {
   for (const opening of Object.values(h.openings)) {
+    const wall = h.walls[opening.wallId]
+    if (!wall) continue
+    const [a, b] = wallEnds(h, wall)
+    // Only pick an opening when the pointer is on its wall, not merely beside it.
+    if (distToSegment(p, a, b) > Math.max(tol, wall.thickness)) continue
     const center = openingCenter(h, opening.id)
     if (center && dist(center, p) <= Math.max(tol, opening.width / 2)) {
       return { kind: 'opening', id: opening.id }
