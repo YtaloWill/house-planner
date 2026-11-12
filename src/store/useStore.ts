@@ -20,6 +20,8 @@ import {
   setWallLength,
   translateWall,
   moveVertexTo,
+  weldJoint,
+  weldWall,
 } from '../core/house'
 import type { CatalogItem } from '../catalog/catalog'
 import { CATALOG_BY_ID } from '../catalog/catalog'
@@ -124,6 +126,9 @@ interface StoreState {
   setWallLengthValue: (wallId: string, length: number) => void
   setWallAngleValue: (wallId: string, degrees: number) => void
   moveWall: (wallId: string, delta: Vec2) => void
+  /** called when a wall or joint drag ends, to reconnect what now touches */
+  finishWallEdit: (wallId: string) => void
+  finishJointEdit: (vertexId: string) => void
   moveVertex: (vertexId: string, p: Vec2) => void
   setVertexPos: (vertexId: string, p: Vec2) => void
   setWallEnd: (wallId: string, which: 'a' | 'b', p: Vec2) => void
@@ -338,7 +343,15 @@ export const useStore = create<StoreState>((set, get) => ({
   },
 
   moveWall: (wallId, delta) => {
-    get().update((h) => translateWall(h, wallId, delta))
+    get().update((h) => translateWall(h, wallId, delta, false))
+  },
+
+  finishWallEdit: (wallId) => {
+    get().update((h) => weldWall(h, wallId))
+  },
+
+  finishJointEdit: (vertexId) => {
+    get().update((h) => weldJoint(h, vertexId))
   },
 
   moveVertex: (vertexId, p) => {

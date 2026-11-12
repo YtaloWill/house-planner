@@ -72,6 +72,8 @@ export function Canvas2D() {
   const endDraft = useStore((s) => s.endDraft)
   const setMeasure = useStore((s) => s.setMeasure)
   const moveWall = useStore((s) => s.moveWall)
+  const finishWallEdit = useStore((s) => s.finishWallEdit)
+  const finishJointEdit = useStore((s) => s.finishJointEdit)
   const moveVertex = useStore((s) => s.moveVertex)
   const setObjectProp = useStore((s) => s.setObjectProp)
   const pushHistory = useStore((s) => s.pushHistory)
@@ -283,7 +285,11 @@ export function Canvas2D() {
 
   const onPointerUp = (e: ReactPointerEvent<SVGSVGElement>) => {
     releaseCapture(e.currentTarget, e.pointerId)
+    const drag = dragRef.current
     dragRef.current = null
+    // Reconnect walls that were dragged back against their neighbours.
+    if (drag?.kind === 'wall') finishWallEdit(drag.wallId)
+    if (drag?.kind === 'vertex') finishJointEdit(drag.vertexId)
   }
 
   const onDoubleClick = () => {

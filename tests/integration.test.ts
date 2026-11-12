@@ -49,7 +49,7 @@ test('room type assignment survives later structural edits', () => {
   assert.deepEqual(areas, [8, 16])
 })
 
-test('editing a wall length moves the shared joint and drags connected walls', () => {
+test('editing one wall leaves its neighbours alone, and re-welds when it meets them again', () => {
   s().newProject()
   drawRectangle(0, 0, 6, 4)
   const bottom = Object.values(s().house.walls).find((wall) => {
@@ -58,20 +58,54 @@ test('editing a wall length moves the shared joint and drags connected walls', (
     return a.y === 0 && b.y === 0
   })
   assert.ok(bottom)
-  s().setWallLengthValue(bottom.id, 5)
+  const rightWallBefore = Object.values(s().house.walls).find((wall) => {
+    const a = s().house.vertices[wall.a]
+    const b = s().house.vertices[wall.b]
+    return a.x === 6 && b.x === 6
+  })
+  assert.ok(rightWallBefore)
 
-  const house = s().house
+  // shortening the bottom wall detaches it; the right-hand wall does not move
+  s().setWallLengthValue(bottom.id, 5)
+  let house = s().house
   assert.ok(Math.abs(wallLength(house, house.walls[bottom.id]) - 5) < 1e-9)
-  // The shared joint moved to (5, 0), so the right-hand wall followed it and the
-  // outline is now a trapezoid of (5 + 6) / 2 * 4 = 22 m² — still one closed room.
+  const rightWallAfter = house.walls[rightWallBefore.id]
+  assert.equal(house.vertices[rightWallAfter.a].x, 6)
+  assert.equal(house.vertices[rightWallAfter.b].x, 6)
+  assert.equal(house.rooms.length, 0, 'the outline is open while the wall is short')
+  assert.equal(Object.keys(house.walls).length, 4)
+
+  // stretching it back into place welds the joint again and the room returns
+  s().setWallLengthValue(bottom.id, 6)
+  house = s().house
   assert.equal(house.rooms.length, 1)
-  assert.ok(Math.abs(house.rooms[0].area - 22) < 1e-6, `area was ${house.rooms[0].area}`)
-  const movedJoint = house.vertices[house.walls[bottom.id].b]
-  assert.deepEqual([movedJoint.x, movedJoint.y], [5, 0])
-  const stillConnected = Object.values(house.walls).filter(
-    (wall) => wall.a === movedJoint.id || wall.b === movedJoint.id,
-  )
-  assert.equal(stillConnected.length, 2, 'both walls still meet at the moved joint')
+  assert.ok(Math.abs(house.rooms[0].area - 24) < 1e-6)
+  assert.equal(Object.keys(house.vertices).length, 4, 'the duplicated joint was merged away')
+})
+
+test('moving a wall detaches it and re-welds when it is put back', () => {
+  s().newProject()
+  drawRectangle(0, 0, 6, 4)
+  const top = Object.values(s().house.walls).find((wall) => {
+    const a = s().house.vertices[wall.a]
+    const b = s().house.vertices[wall.b]
+    return a.y === 4 && b.y === 4
+  })
+  assert.ok(top)
+
+  // a live drag (no welding yet) pulls only this wall
+  s().moveWall(top.id, { x: 0, y: 1.5 })
+  assert.equal(s().house.rooms.length, 0)
+  assert.equal(Object.keys(s().house.vertices).length, 6)
+  const sideStillThere = Object.values(s().house.vertices).filter((v) => v.y === 4).length
+  assert.equal(sideStillThere, 2, 'the side walls kept their original corners')
+
+  // dropped back on top of them, the corners merge again
+  s().moveWall(top.id, { x: 0, y: -1.5 })
+  s().finishWallEdit(top.id)
+  assert.equal(Object.keys(s().house.vertices).length, 4)
+  assert.equal(s().house.rooms.length, 1)
+  assert.ok(Math.abs(s().house.rooms[0].area - 24) < 1e-6)
 })
 
 test('drawing across an existing wall splits it so rooms still close', () => {

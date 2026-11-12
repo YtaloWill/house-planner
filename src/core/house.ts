@@ -5,6 +5,7 @@ import type {
   OpeningKind,
   Vec2,
   Vec3,
+  Vertex,
   Wall,
 } from '../types/house'
 import { HOUSE_VERSION } from '../types/house'
@@ -45,6 +46,8 @@ export const DEFAULTS = {
   objectStep: 0.01,
   /** furniture rotates in 1° steps */
   objectAngleStep: Math.PI / 180,
+  /** endpoints closer than this are welded back together after a wall edit */
+  weldTolerance: 0.06,
 }
 
 export function createHouse(name = 'Untitled House'): House {
@@ -368,14 +371,104 @@ export function moveVertexTo(h: House, vertexId: string, p: Vec2): void {
 }
 
 /** Moves a whole wall, dragging both of its endpoints (and anything attached). */
-export function translateWall(h: House, wallId: string, delta: Vec2): void {
+/**
+ * Gives a wall its own copy of an endpoint when that endpoint is shared with
+ * other walls, so editing one wall never drags its neighbours along. The
+ * neighbours stay where they are; `weldWall` reconnects them if the wall is
+ * later brought back into place.
+ */
+export function detachEndpoint(h: House, wallId: string, which: 'a' | 'b'): string {
+  const wall = h.walls[wallId]
+  if (!wall) return ''
+  const vertexId = which === 'a' ? wall.a : wall.b
+  const isShared = wallsAtVertex(h, vertexId).some((other) => other.id !== wallId)
+  if (!isShared) return vertexId
+
+  const copy = createVertex(h, vertexPos(h, vertexId))
+  if (which === 'a') wall.a = copy
+  else wall.b = copy
+  return copy
+}
+
+/** Drops walls that ended up joining the same pair of vertices. */
+function dedupeWalls(h: House): void {
+  const seen = new Map<string, string>()
+  for (const w of Object.values(h.walls)) {
+    if (w.a === w.b) {
+      removeWall(h, w.id)
+      continue
+    }
+    const key = [w.a, w.b].sort().join('|')
+    const existing = seen.get(key)
+    if (existing) removeWall(h, w.id)
+    else seen.set(key, w.id)
+  }
+}
+
+/**
+ * Merges a vertex into a coincident one, so a wall that is moved back against
+ * its neighbours reconnects and the rooms close again. Returns the surviving
+ * vertex id.
+ */
+export function weldVertex(h: House, vertexId: string, tol = DEFAULTS.weldTolerance): string {
+  const vertex = h.vertices[vertexId]
+  if (!vertex) return vertexId
+
+  const attached = wallsAtVertex(h, vertexId)
+  let best: Vertex | undefined
+  let bestDistance = tol
+  for (const other of Object.values(h.vertices)) {
+    if (other.id === vertexId) continue
+    const d = dist(vertex, other)
+    if (d > bestDistance) continue
+    // welding must never collapse a wall onto itself
+    const collapses = attached.some(
+      (w) => (w.a === vertexId && w.b === other.id) || (w.b === vertexId && w.a === other.id),
+    )
+    if (collapses) continue
+    bestDistance = d
+    best = other
+  }
+  if (!best) return vertexId
+
+  for (const w of Object.values(h.walls)) {
+    if (w.a === vertexId) w.a = best.id
+    if (w.b === vertexId) w.b = best.id
+  }
+  delete h.vertices[vertexId]
+  return best.id
+}
+
+/** Welds a single joint onto a coincident one and cleans up duplicates. */
+export function weldJoint(h: House, vertexId: string, tol = DEFAULTS.weldTolerance): void {
+  weldVertex(h, vertexId, tol)
+  dedupeWalls(h)
+}
+
+/** Reconnects both ends of a wall to anything they now touch. */
+export function weldWall(h: House, wallId: string, tol = DEFAULTS.weldTolerance): void {
   const wall = h.walls[wallId]
   if (!wall) return
-  for (const id of [wall.a, wall.b]) {
+  weldVertex(h, wall.a, tol)
+  weldVertex(h, wall.b, tol)
+  dedupeWalls(h)
+}
+
+/**
+ * Moves a whole wall. The wall is detached from its neighbours first; pass
+ * `weld` false while dragging and weld once the gesture ends.
+ */
+export function translateWall(h: House, wallId: string, delta: Vec2, weld = true): void {
+  const wall = h.walls[wallId]
+  if (!wall) return
+  const a = detachEndpoint(h, wallId, 'a')
+  const b = detachEndpoint(h, wallId, 'b')
+  for (const id of [a, b]) {
     const v = h.vertices[id]
     v.x += delta.x
     v.y += delta.y
   }
+  if (weld) weldWall(h, wallId)
 }
 
 /** Changes a wall's length by moving its b endpoint along the wall direction. */
@@ -384,7 +477,9 @@ export function setWallLength(h: House, wallId: string, newLength: number): void
   if (!wall || newLength <= 0) return
   const [a] = wallEnds(h, wall)
   const dir = wallDirection(h, wall)
-  moveVertexTo(h, wall.b, { x: a.x + dir.x * newLength, y: a.y + dir.y * newLength })
+  const b = detachEndpoint(h, wallId, 'b')
+  moveVertexTo(h, b, { x: a.x + dir.x * newLength, y: a.y + dir.y * newLength })
+  weldWall(h, wallId)
 }
 
 /** Rotates a wall around its a endpoint, keeping its length. */
@@ -393,16 +488,20 @@ export function setWallAngle(h: House, wallId: string, angleRad: number): void {
   if (!wall) return
   const [a] = wallEnds(h, wall)
   const len = wallLength(h, wall)
-  moveVertexTo(h, wall.b, {
+  const b = detachEndpoint(h, wallId, 'b')
+  moveVertexTo(h, b, {
     x: a.x + Math.cos(angleRad) * len,
     y: a.y + Math.sin(angleRad) * len,
   })
+  weldWall(h, wallId)
 }
 
 export function setWallEndpoint(h: House, wallId: string, which: 'a' | 'b', p: Vec2): void {
   const wall = h.walls[wallId]
   if (!wall) return
-  moveVertexTo(h, which === 'a' ? wall.a : wall.b, p)
+  const vertexId = detachEndpoint(h, wallId, which)
+  moveVertexTo(h, vertexId, p)
+  weldWall(h, wallId)
 }
 
 /* ------------------------------------------------------------- openings */
