@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from 'react'
 import { useStore } from '../store/useStore'
-import type { Vec2 } from '../types/house'
+import type { Vec2, Vec3 } from '../types/house'
 import { degrees, dist, formatArea, formatMeters, polygonCentroid, roundTo } from '../core/geometry'
 import {
   DEFAULTS,
@@ -28,6 +28,7 @@ type Drag =
   | { kind: 'vertex'; vertexId: string }
   | { kind: 'object'; objectId: string; offset: Vec2 }
   | { kind: 'measure'; from: Vec2 }
+  | { kind: 'resize'; objectId: string; handle: number }
 
 /** Pointer capture is best-effort: it is unavailable for synthetic pointers. */
 function capture(element: Element, pointerId: number) {
@@ -45,6 +46,82 @@ function releaseCapture(element: Element, pointerId: number) {
     /* ignore */
   }
 }
+
+/**
+ * The eight resize grips of a selected object, in its own frame:
+ * 0-3 are the corners, 4-7 the edge midpoints (top, right, bottom, left).
+ */
+const HANDLE_OFFSETS: [number, number][] = [
+  [-1, -1],
+  [1, -1],
+  [1, 1],
+  [-1, 1],
+  [0, -1],
+  [1, 0],
+  [0, 1],
+  [-1, 0],
+]
+
+function handlePoints(center: Vec2, w: number, d: number, rotation: number): Vec2[] {
+  const c = Math.cos(rotation)
+  const s = Math.sin(rotation)
+  return HANDLE_OFFSETS.map(([hx, hy]) => {
+    const lx = (hx * w) / 2
+    const ly = (hy * d) / 2
+    return { x: center.x + lx * c - ly * s, y: center.y + lx * s + ly * c }
+  })
+}
+
+/**
+ * Resizes an object by dragging one of its grips: the opposite edge or corner
+ * stays put while the dragged side follows the pointer.
+ */
+function resizeFromHandle(
+  object: { position: Vec3; size: { w: number; h: number; d: number }; rotation: number },
+  handle: number,
+  pointer: Vec2,
+  step: number,
+): { position: Vec3; size: { w: number; h: number; d: number } } {
+  const [hx, hy] = HANDLE_OFFSETS[handle]
+  const c = Math.cos(object.rotation)
+  const sn = Math.sin(object.rotation)
+  const ex = { x: c, y: sn }
+  const ey = { x: -sn, y: c }
+  const center = { x: object.position.x, y: object.position.z }
+
+  // local coordinates of the pointer, relative to the object centre
+  const rel = { x: pointer.x - center.x, y: pointer.y - center.y }
+  const localX = rel.x * ex.x + rel.y * ex.y
+  const localY = rel.x * ey.x + rel.y * ey.y
+
+  let { w, d } = object.size
+  let shiftX = 0
+  let shiftY = 0
+
+  if (hx !== 0) {
+    const fixed = (-hx * object.size.w) / 2 // the edge that stays put
+    const next = Math.max(0.05, roundTo(Math.abs(localX - fixed), step))
+    shiftX = fixed + (hx * next) / 2
+    w = next
+  }
+  if (hy !== 0) {
+    const fixed = (-hy * object.size.d) / 2
+    const next = Math.max(0.05, roundTo(Math.abs(localY - fixed), step))
+    shiftY = fixed + (hy * next) / 2
+    d = next
+  }
+
+  return {
+    size: { ...object.size, w, d },
+    position: {
+      x: center.x + shiftX * ex.x + shiftY * ey.x,
+      y: object.position.y,
+      z: center.y + shiftX * ex.y + shiftY * ey.y,
+    },
+  }
+}
+
+const HANDLE_CURSORS = ['nwse-resize', 'nesw-resize', 'nwse-resize', 'nesw-resize', 'ns-resize', 'ew-resize', 'ns-resize', 'ew-resize']
 
 const MIN_PPM = 8
 const MAX_PPM = 400
@@ -163,6 +240,26 @@ export function Canvas2D() {
 
     const raw = eventToWorld(e)
 
+    // resize grips of the selected object take precedence over everything else
+    if (selection.kind === 'object') {
+      const object = house.objects[selection.id]
+      if (object) {
+        const grips = handlePoints(
+          { x: object.position.x, y: object.position.z },
+          object.size.w,
+          object.size.d,
+          object.rotation,
+        )
+        const index = grips.findIndex((grip) => dist(grip, raw) <= pickTolerance * 1.2)
+        if (index >= 0) {
+          pushHistory()
+          dragRef.current = { kind: 'resize', objectId: selection.id, handle: index }
+          return
+        }
+      }
+    }
+
+
     if (tool === 'wall') {
       const result = snapped(raw, draft?.start)
       if (!draft) startDraft(result.point)
@@ -264,6 +361,14 @@ export function Canvas2D() {
         y = roundTo(y, DEFAULTS.objectStep)
       }
       setObjectProp(drag.objectId, { position: { x, y: obj.position.y, z: y } })
+      return
+    }
+
+    if (drag?.kind === 'resize') {
+      const object = house.objects[drag.objectId]
+      if (!object) return
+      const next = resizeFromHandle(object, drag.handle, raw, DEFAULTS.objectStep)
+      setObjectProp(drag.objectId, next)
       return
     }
 
@@ -507,6 +612,28 @@ export function Canvas2D() {
               </g>
             )
           })}
+
+          {/* resize grips for the selected object */}
+          {selection.kind === 'object' &&
+            house.objects[selection.id] &&
+            handlePoints(
+              { x: house.objects[selection.id].position.x, y: house.objects[selection.id].position.z },
+              house.objects[selection.id].size.w,
+              house.objects[selection.id].size.d,
+              house.objects[selection.id].rotation,
+            ).map((grip, index) => (
+              <rect
+                key={`grip-${index}`}
+                x={grip.x - 5 / cam.ppm}
+                y={grip.y - 5 / cam.ppm}
+                width={10 / cam.ppm}
+                height={10 / cam.ppm}
+                fill="#ffffff"
+                stroke="#2f7fd8"
+                strokeWidth={2 / cam.ppm}
+                style={{ cursor: HANDLE_CURSORS[index] }}
+              />
+            ))}
 
           {/* vertices */}
           {Object.values(house.vertices).map((v) => {
