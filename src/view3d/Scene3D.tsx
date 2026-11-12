@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Grid } from '@react-three/drei'
 import { useStore } from '../store/useStore'
@@ -9,6 +10,8 @@ import { PlacementLayer } from './PlacementLayer'
 
 export function Scene3D() {
   const select = useStore((s) => s.select)
+  const cancelPlacing = useStore((s) => s.cancelPlacing)
+  const rightPress = useRef<{ x: number; y: number } | null>(null)
   const grid = useStore((s) => s.grid)
   const firstPerson = useStore((s) => s.firstPerson)
   const placing = useStore((s) => s.placing)
@@ -16,6 +19,20 @@ export function Scene3D() {
 
   return (
     <Canvas
+      onPointerDown={(event) => {
+        if (event.button === 2) rightPress.current = { x: event.clientX, y: event.clientY }
+      }}
+      onPointerUp={(event) => {
+        if (event.button !== 2) return
+        const start = rightPress.current
+        rightPress.current = null
+        // a right *drag* orbits/pans the camera; only a right *click* clears
+        if (!start) return
+        if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > 4) return
+        if (placing) cancelPlacing()
+        else select({ kind: 'none' })
+      }}
+      onContextMenu={(event) => event.preventDefault()}
       shadows
       frameloop={view === '3d' ? 'always' : 'never'}
       dpr={[1, 2]}

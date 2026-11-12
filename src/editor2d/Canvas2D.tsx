@@ -153,6 +153,8 @@ export function Canvas2D() {
   const finishJointEdit = useStore((s) => s.finishJointEdit)
   const moveVertex = useStore((s) => s.moveVertex)
   const setObjectProp = useStore((s) => s.setObjectProp)
+  const placing = useStore((s) => s.placing)
+  const cancelPlacing = useStore((s) => s.cancelPlacing)
   const pushHistory = useStore((s) => s.pushHistory)
   const addWallOpening = useStore((s) => s.addWallOpening)
   const deleteSelection = useStore((s) => s.deleteSelection)
@@ -235,6 +237,13 @@ export function Canvas2D() {
       capture(e.currentTarget, e.pointerId)
       return
     }
+    if (e.button === 2) {
+      // right click clears the selection (and any pending action)
+      if (draft) endDraft()
+      if (placing) cancelPlacing()
+      select({ kind: 'none' })
+      return
+    }
     if (e.button !== 0) return
     capture(e.currentTarget, e.pointerId)
 
@@ -258,7 +267,6 @@ export function Canvas2D() {
         }
       }
     }
-
 
     if (tool === 'wall') {
       const result = snapped(raw, draft?.start)
