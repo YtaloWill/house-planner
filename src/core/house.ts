@@ -409,19 +409,28 @@ export function openingsForWall(h: House, wallId: string): Opening[] {
     .sort((a, b) => a.t - b.t)
 }
 
-export function addOpening(h: House, wallId: string, kind: OpeningKind, t: number): Opening | null {
+/** Adds a door or window to a wall. Width defaults to the preset for the kind. */
+export function addOpening(
+  h: House,
+  wallId: string,
+  kind: OpeningKind,
+  t: number,
+  width?: number,
+): Opening | null {
   const wall = h.walls[wallId]
   if (!wall) return null
   const preset = kind === 'door' ? DEFAULTS.door : DEFAULTS.window
+  const requested = width ?? preset.width
   const len = wallLength(h, wall)
-  if (len < preset.width + 0.1) return null
-  const half = preset.width / 2 / len
+  // A wide passage may fill nearly the whole wall; only a sliver is required.
+  if (len < requested + 0.02) return null
+  const half = requested / 2 / len
   const opening: Opening = {
     id: uid('o'),
     wallId,
     kind,
     t: Math.min(1 - half, Math.max(half, t)),
-    width: preset.width,
+    width: requested,
     height: Math.min(preset.height, wall.height - preset.sill - 0.05),
     sill: preset.sill,
   }

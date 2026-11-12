@@ -9,7 +9,7 @@ import assert from 'node:assert/strict'
 import { useStore } from '../src/store/useStore.ts'
 import { CATALOG_BY_ID } from '../src/catalog/catalog.ts'
 import { houseToJSON, parseHouse } from '../src/core/persistence.ts'
-import { openingsForWall, wallLength, findWallNear, snapPoint } from '../src/core/house.ts'
+import { addOpening, openingsForWall, wallLength, findWallNear, snapPoint } from '../src/core/house.ts'
 import { wallPieces } from '../src/view3d/wallGeometry.ts'
 import { resolvePlacement } from '../src/core/placement.ts'
 
@@ -103,6 +103,30 @@ test('doors and windows cut real openings in the 3D wall geometry', () => {
   const full = wallLength(house, house.walls[wall.id]) * house.walls[wall.id].height
   const cut = openings.reduce((sum, opening) => sum + opening.width * opening.height, 0)
   assert.ok(Math.abs(solid - (full - cut)) < 1e-6)
+})
+
+test('openings accept an explicit width and may fill almost the whole wall', () => {
+  s().newProject()
+  drawRectangle(0, 0, 6, 4)
+  // split the bottom wall so there is a short 1 m segment to open up
+  s().addWalls({ x: 1, y: 0 }, { x: 1, y: 2 })
+  s().addWalls({ x: 2, y: 0 }, { x: 2, y: 2 })
+  const segment = findWallNear(s().house, { x: 1.5, y: 0 }, 0.2)
+  assert.ok(segment)
+  assert.ok(Math.abs(wallLength(s().house, segment) - 1) < 1e-9)
+
+  s().commit((h) => {
+    const opening = addOpening(h, segment.id, 'door', 0.5, 0.9)
+    assert.ok(opening, 'a 0.9 m door fits a 1 m wall')
+    assert.equal(opening.width, 0.9)
+  })
+  assert.equal(Object.keys(s().house.openings).length, 1)
+
+  // but it must still refuse what cannot fit
+  s().commit((h) => {
+    assert.equal(addOpening(h, segment.id, 'door', 0.5, 1.2), null)
+  })
+  assert.equal(Object.keys(s().house.openings).length, 1)
 })
 
 test('placement rests objects on the floor, snaps to walls and respects boundaries', () => {
