@@ -720,7 +720,8 @@ canvas.placing {
 .statusbar {
   display: flex;
   align-items: center;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 4px 16px;
   padding: 5px 12px;
   background: var(--panel);
   border-top: 1px solid var(--border);
@@ -732,6 +733,10 @@ canvas.placing {
 
 .statusbar .spacer {
   flex: 1;
+}
+
+.statusbar .mouse-help {
+  color: #7b828c;
 }
 
 .statusbar .chip-tool {

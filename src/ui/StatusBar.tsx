@@ -1,6 +1,40 @@
-import { useStore } from '../store/useStore'
+import { useStore, type Tool, type ViewMode } from '../store/useStore'
 import { degrees, formatArea, formatMeters } from '../core/geometry'
 import { wallAngle, wallLength } from '../core/house'
+
+/** What the mouse does, for the tool and view in play. */
+function mouseHelp(view: ViewMode, tool: Tool, placing: boolean, selected: boolean): string {
+  if (placing) return 'Move: preview · Left: drop · R: rotate 15° · Right/Esc: cancel'
+  if (view === '3d') {
+    return [
+      'Left: select / drag gizmo',
+      'Left drag: orbit',
+      'Right drag: pan',
+      'Right click: deselect',
+      'Wheel: zoom',
+    ].join(' · ')
+  }
+  const common = 'Middle or Space+drag: pan · Wheel: zoom · Right click: deselect'
+  switch (tool) {
+    case 'wall':
+      return `Left: start / add point · Double-click or Esc: finish · ${common}`
+    case 'door':
+    case 'window':
+      return `Left: drop on a wall · ${common}`
+    case 'move':
+      return `Left drag: move wall, joint or object · ${common}`
+    case 'delete':
+      return `Left: delete what you click · ${common}`
+    case 'measure':
+      return `Left drag: measure a distance · ${common}`
+    case 'pan':
+      return `Left drag: pan · ${common}`
+    default:
+      return selected
+        ? `Left drag: move · grips: resize · ${common}`
+        : `Left: select · Left drag on a joint: move it · ${common}`
+  }
+}
 
 export function StatusBar() {
   const house = useStore((s) => s.house)
@@ -44,6 +78,9 @@ export function StatusBar() {
 
   return (
     <footer className="statusbar">
+      <span className="mouse-help" title="Mouse commands">
+        🖱 {mouseHelp(view, tool, placing !== null, selection.kind !== 'none')}
+      </span>
       <span className="chip-tool">{placing ? `Placing: ${placing.name}` : `Tool: ${tool}`}</span>
       <span>{view === '2d' ? `Cursor: ${cursor.x.toFixed(2)}, ${cursor.y.toFixed(2)} m` : '3D view'}</span>
       <span>{selectionText}</span>
