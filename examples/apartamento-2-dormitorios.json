@@ -1,0 +1,1055 @@
+{
+  "meta": {
+    "id": "house-mwd09sy0-1",
+    "name": "Apartamento 2 Dormitórios",
+    "createdAt": "2026-11-12T03:46:02.567Z",
+    "updatedAt": "2026-11-12T03:46:02.567Z",
+    "units": "m",
+    "version": 1
+  },
+  "vertices": {
+    "v-mwd09sy0-2": {
+      "id": "v-mwd09sy0-2",
+      "x": 2.525,
+      "y": 0
+    },
+    "v-mwd09sy0-3": {
+      "id": "v-mwd09sy0-3",
+      "x": 7.25,
+      "y": 0
+    },
+    "v-mwd09sy0-5": {
+      "id": "v-mwd09sy0-5",
+      "x": 7.25,
+      "y": 4.74
+    },
+    "v-mwd09sy0-7": {
+      "id": "v-mwd09sy0-7",
+      "x": 2.525,
+      "y": 4.74
+    },
+    "v-mwd09sy1-a": {
+      "id": "v-mwd09sy1-a",
+      "x": 0,
+      "y": 0.69
+    },
+    "v-mwd09sy1-b": {
+      "id": "v-mwd09sy1-b",
+      "x": 2.525,
+      "y": 0.6900000000000001
+    },
+    "v-mwd09sy1-e": {
+      "id": "v-mwd09sy1-e",
+      "x": 0,
+      "y": 3.715
+    },
+    "v-mwd09sy1-g": {
+      "id": "v-mwd09sy1-g",
+      "x": 2.525,
+      "y": 3.715
+    },
+    "v-mwd09sy1-j": {
+      "id": "v-mwd09sy1-j",
+      "x": 2.525,
+      "y": 1.215
+    },
+    "v-mwd09sy1-l": {
+      "id": "v-mwd09sy1-l",
+      "x": 4.725,
+      "y": 1.215
+    },
+    "v-mwd09sy1-n": {
+      "id": "v-mwd09sy1-n",
+      "x": 2.525,
+      "y": 2.215
+    },
+    "v-mwd09sy1-p": {
+      "id": "v-mwd09sy1-p",
+      "x": 4.725,
+      "y": 2.215
+    },
+    "v-mwd09sy1-r": {
+      "id": "v-mwd09sy1-r",
+      "x": 4.725,
+      "y": 0
+    },
+    "v-mwd09sy2-t": {
+      "id": "v-mwd09sy2-t",
+      "x": 4.725,
+      "y": 4.74
+    },
+    "v-mwd09sy2-y": {
+      "id": "v-mwd09sy2-y",
+      "x": 4.725,
+      "y": 5.79
+    },
+    "v-mwd09sy2-10": {
+      "id": "v-mwd09sy2-10",
+      "x": 7.25,
+      "y": 5.79
+    }
+  },
+  "walls": {
+    "w-mwd09sy0-4": {
+      "id": "w-mwd09sy0-4",
+      "a": "v-mwd09sy0-2",
+      "b": "v-mwd09sy1-r",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy0-6": {
+      "id": "w-mwd09sy0-6",
+      "a": "v-mwd09sy0-3",
+      "b": "v-mwd09sy0-5",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy0-8": {
+      "id": "w-mwd09sy0-8",
+      "a": "v-mwd09sy0-7",
+      "b": "v-mwd09sy2-t",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy0-9": {
+      "id": "w-mwd09sy0-9",
+      "a": "v-mwd09sy0-2",
+      "b": "v-mwd09sy1-b",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-c": {
+      "id": "w-mwd09sy1-c",
+      "a": "v-mwd09sy1-b",
+      "b": "v-mwd09sy1-j",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-d": {
+      "id": "w-mwd09sy1-d",
+      "a": "v-mwd09sy1-a",
+      "b": "v-mwd09sy1-b",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-f": {
+      "id": "w-mwd09sy1-f",
+      "a": "v-mwd09sy1-a",
+      "b": "v-mwd09sy1-e",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-h": {
+      "id": "w-mwd09sy1-h",
+      "a": "v-mwd09sy1-g",
+      "b": "v-mwd09sy0-7",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-i": {
+      "id": "w-mwd09sy1-i",
+      "a": "v-mwd09sy1-e",
+      "b": "v-mwd09sy1-g",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-k": {
+      "id": "w-mwd09sy1-k",
+      "a": "v-mwd09sy1-j",
+      "b": "v-mwd09sy1-n",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-m": {
+      "id": "w-mwd09sy1-m",
+      "a": "v-mwd09sy1-j",
+      "b": "v-mwd09sy1-l",
+      "height": 2.6,
+      "thickness": 0.1,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-o": {
+      "id": "w-mwd09sy1-o",
+      "a": "v-mwd09sy1-n",
+      "b": "v-mwd09sy1-g",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-q": {
+      "id": "w-mwd09sy1-q",
+      "a": "v-mwd09sy1-n",
+      "b": "v-mwd09sy1-p",
+      "height": 2.6,
+      "thickness": 0.1,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy1-s": {
+      "id": "w-mwd09sy1-s",
+      "a": "v-mwd09sy1-r",
+      "b": "v-mwd09sy0-3",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy2-u": {
+      "id": "w-mwd09sy2-u",
+      "a": "v-mwd09sy2-t",
+      "b": "v-mwd09sy0-5",
+      "height": 2.6,
+      "thickness": 0.15,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy2-v": {
+      "id": "w-mwd09sy2-v",
+      "a": "v-mwd09sy1-r",
+      "b": "v-mwd09sy1-l",
+      "height": 2.6,
+      "thickness": 0.1,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy2-w": {
+      "id": "w-mwd09sy2-w",
+      "a": "v-mwd09sy1-l",
+      "b": "v-mwd09sy1-p",
+      "height": 2.6,
+      "thickness": 0.1,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy2-x": {
+      "id": "w-mwd09sy2-x",
+      "a": "v-mwd09sy1-p",
+      "b": "v-mwd09sy2-t",
+      "height": 2.6,
+      "thickness": 0.1,
+      "color": "#ece7df"
+    },
+    "w-mwd09sy2-z": {
+      "id": "w-mwd09sy2-z",
+      "a": "v-mwd09sy2-t",
+      "b": "v-mwd09sy2-y",
+      "height": 1.1,
+      "thickness": 0.12,
+      "color": "#dcd7cf"
+    },
+    "w-mwd09sy2-11": {
+      "id": "w-mwd09sy2-11",
+      "a": "v-mwd09sy2-y",
+      "b": "v-mwd09sy2-10",
+      "height": 1.1,
+      "thickness": 0.12,
+      "color": "#dcd7cf"
+    },
+    "w-mwd09sy2-12": {
+      "id": "w-mwd09sy2-12",
+      "a": "v-mwd09sy0-5",
+      "b": "v-mwd09sy2-10",
+      "height": 1.1,
+      "thickness": 0.12,
+      "color": "#dcd7cf"
+    }
+  },
+  "openings": {
+    "o-mwd09sy3-13": {
+      "id": "o-mwd09sy3-13",
+      "wallId": "w-mwd09sy1-k",
+      "kind": "door",
+      "t": 0.5000000000000001,
+      "width": 0.9,
+      "height": 2.1,
+      "sill": 0
+    },
+    "o-mwd09sy3-14": {
+      "id": "o-mwd09sy3-14",
+      "wallId": "w-mwd09sy2-w",
+      "kind": "door",
+      "t": 0.5000000000000001,
+      "width": 0.9,
+      "height": 2.6,
+      "sill": 0
+    },
+    "o-mwd09sy3-15": {
+      "id": "o-mwd09sy3-15",
+      "wallId": "w-mwd09sy1-m",
+      "kind": "door",
+      "t": 0.7522727272727272,
+      "width": 0.7,
+      "height": 2.1,
+      "sill": 0
+    },
+    "o-mwd09sy3-16": {
+      "id": "o-mwd09sy3-16",
+      "wallId": "w-mwd09sy1-q",
+      "kind": "door",
+      "t": 0.5795454545454545,
+      "width": 0.8,
+      "height": 2.1,
+      "sill": 0
+    },
+    "o-mwd09sy3-17": {
+      "id": "o-mwd09sy3-17",
+      "wallId": "w-mwd09sy1-i",
+      "kind": "window",
+      "t": 0.4950495049504951,
+      "width": 1.2,
+      "height": 1.2,
+      "sill": 1
+    },
+    "o-mwd09sy3-18": {
+      "id": "o-mwd09sy3-18",
+      "wallId": "w-mwd09sy0-8",
+      "kind": "window",
+      "t": 0.4204545454545456,
+      "width": 1.2,
+      "height": 1.2,
+      "sill": 1
+    },
+    "o-mwd09sy3-19": {
+      "id": "o-mwd09sy3-19",
+      "wallId": "w-mwd09sy2-u",
+      "kind": "door",
+      "t": 0.44554455445544544,
+      "width": 1.4,
+      "height": 2.1,
+      "sill": 0
+    },
+    "o-mwd09sy3-1a": {
+      "id": "o-mwd09sy3-1a",
+      "wallId": "w-mwd09sy1-s",
+      "kind": "window",
+      "t": 0.4851485148514853,
+      "width": 0.95,
+      "height": 1,
+      "sill": 1.2
+    }
+  },
+  "rooms": [
+    {
+      "id": "room-v9ycc2bk",
+      "name": "Banho",
+      "type": "bathroom",
+      "floorColor": "#dedbd4",
+      "wallIds": [
+        "w-mwd09sy0-4",
+        "w-mwd09sy2-v",
+        "w-mwd09sy1-m",
+        "w-mwd09sy1-c",
+        "w-mwd09sy0-9"
+      ],
+      "polygon": [
+        {
+          "x": 2.525,
+          "y": 0
+        },
+        {
+          "x": 4.725,
+          "y": 0
+        },
+        {
+          "x": 4.725,
+          "y": 1.215
+        },
+        {
+          "x": 2.525,
+          "y": 1.215
+        },
+        {
+          "x": 2.525,
+          "y": 0.6900000000000001
+        }
+      ],
+      "area": 2.6730000000000005
+    },
+    {
+      "id": "room-lztde94b",
+      "name": "Sala e Cozinha",
+      "type": "living",
+      "floorColor": "#dedbd4",
+      "wallIds": [
+        "w-mwd09sy1-s",
+        "w-mwd09sy0-6",
+        "w-mwd09sy2-u",
+        "w-mwd09sy2-x",
+        "w-mwd09sy2-w",
+        "w-mwd09sy2-v"
+      ],
+      "polygon": [
+        {
+          "x": 4.725,
+          "y": 0
+        },
+        {
+          "x": 7.25,
+          "y": 0
+        },
+        {
+          "x": 7.25,
+          "y": 4.74
+        },
+        {
+          "x": 4.725,
+          "y": 4.74
+        },
+        {
+          "x": 4.725,
+          "y": 2.215
+        },
+        {
+          "x": 4.725,
+          "y": 1.215
+        }
+      ],
+      "area": 11.968500000000002
+    },
+    {
+      "id": "room-pabhttqv",
+      "name": "Terraço",
+      "type": "other",
+      "floorColor": "#dedbd4",
+      "wallIds": [
+        "w-mwd09sy2-12",
+        "w-mwd09sy2-11",
+        "w-mwd09sy2-z",
+        "w-mwd09sy2-u"
+      ],
+      "polygon": [
+        {
+          "x": 7.25,
+          "y": 4.74
+        },
+        {
+          "x": 7.25,
+          "y": 5.79
+        },
+        {
+          "x": 4.725,
+          "y": 5.79
+        },
+        {
+          "x": 4.725,
+          "y": 4.74
+        }
+      ],
+      "area": 2.6512499999999974
+    },
+    {
+      "id": "room-ivyjuklo",
+      "name": "Dormitório 2",
+      "type": "bedroom",
+      "floorColor": "#c6a173",
+      "wallIds": [
+        "w-mwd09sy1-h",
+        "w-mwd09sy1-o",
+        "w-mwd09sy1-q",
+        "w-mwd09sy2-x",
+        "w-mwd09sy0-8"
+      ],
+      "polygon": [
+        {
+          "x": 2.525,
+          "y": 4.74
+        },
+        {
+          "x": 2.525,
+          "y": 3.715
+        },
+        {
+          "x": 2.525,
+          "y": 2.215
+        },
+        {
+          "x": 4.725,
+          "y": 2.215
+        },
+        {
+          "x": 4.725,
+          "y": 4.74
+        }
+      ],
+      "area": 5.555
+    },
+    {
+      "id": "room-mkkih0po",
+      "name": "Dormitório 1",
+      "type": "bedroom",
+      "floorColor": "#c6a173",
+      "wallIds": [
+        "w-mwd09sy1-c",
+        "w-mwd09sy1-k",
+        "w-mwd09sy1-o",
+        "w-mwd09sy1-i",
+        "w-mwd09sy1-f",
+        "w-mwd09sy1-d"
+      ],
+      "polygon": [
+        {
+          "x": 2.525,
+          "y": 0.6900000000000001
+        },
+        {
+          "x": 2.525,
+          "y": 1.215
+        },
+        {
+          "x": 2.525,
+          "y": 2.215
+        },
+        {
+          "x": 2.525,
+          "y": 3.715
+        },
+        {
+          "x": 0,
+          "y": 3.715
+        },
+        {
+          "x": 0,
+          "y": 0.69
+        }
+      ],
+      "area": 7.638124999999998
+    },
+    {
+      "id": "room-c5r9rqr4",
+      "name": "Hall",
+      "type": "other",
+      "floorColor": "#c6a173",
+      "wallIds": [
+        "w-mwd09sy1-m",
+        "w-mwd09sy2-w",
+        "w-mwd09sy1-q",
+        "w-mwd09sy1-k"
+      ],
+      "polygon": [
+        {
+          "x": 2.525,
+          "y": 1.215
+        },
+        {
+          "x": 4.725,
+          "y": 1.215
+        },
+        {
+          "x": 4.725,
+          "y": 2.215
+        },
+        {
+          "x": 2.525,
+          "y": 2.215
+        }
+      ],
+      "area": 2.1999999999999993
+    }
+  ],
+  "objects": {
+    "obj-mwd09sy3-1b": {
+      "id": "obj-mwd09sy3-1b",
+      "catalogId": "wardrobe",
+      "name": "Wardrobe",
+      "category": "bedroom",
+      "position": {
+        "x": 1.7,
+        "y": 0,
+        "z": 1.015
+      },
+      "rotation": 0,
+      "size": {
+        "w": 1.4,
+        "h": 2.1,
+        "d": 0.6
+      },
+      "color": "#a9794f",
+      "roomId": "room-mkkih0po"
+    },
+    "obj-mwd09sy3-1c": {
+      "id": "obj-mwd09sy3-1c",
+      "catalogId": "double-bed",
+      "name": "Double Bed",
+      "category": "bedroom",
+      "position": {
+        "x": 1.15,
+        "y": 0,
+        "z": 2.4
+      },
+      "rotation": -1.5707963267948966,
+      "size": {
+        "w": 1.6,
+        "h": 0.85,
+        "d": 2.05
+      },
+      "color": "#8d9bab",
+      "roomId": "room-mkkih0po"
+    },
+    "obj-mwd09sy3-1d": {
+      "id": "obj-mwd09sy3-1d",
+      "catalogId": "nightstand",
+      "name": "Nightstand",
+      "category": "bedroom",
+      "position": {
+        "x": 0.35,
+        "y": 0,
+        "z": 1.3
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.45,
+        "h": 0.55,
+        "d": 0.4
+      },
+      "color": "#a9794f",
+      "roomId": "room-mkkih0po"
+    },
+    "obj-mwd09sy3-1e": {
+      "id": "obj-mwd09sy3-1e",
+      "catalogId": "nightstand",
+      "name": "Nightstand",
+      "category": "bedroom",
+      "position": {
+        "x": 0.35,
+        "y": 0,
+        "z": 3.4
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.45,
+        "h": 0.55,
+        "d": 0.4
+      },
+      "color": "#a9794f",
+      "roomId": "room-mkkih0po"
+    },
+    "obj-mwd09sy3-1f": {
+      "id": "obj-mwd09sy3-1f",
+      "catalogId": "shower",
+      "name": "Shower Enclosure",
+      "category": "bathroom",
+      "position": {
+        "x": 3.05,
+        "y": 0,
+        "z": 0.6
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.9,
+        "h": 2,
+        "d": 0.9
+      },
+      "color": "#cfe0e6",
+      "roomId": "room-v9ycc2bk"
+    },
+    "obj-mwd09sy3-1g": {
+      "id": "obj-mwd09sy3-1g",
+      "catalogId": "toilet",
+      "name": "Toilet",
+      "category": "bathroom",
+      "position": {
+        "x": 3.8,
+        "y": 0,
+        "z": 0.44
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.4,
+        "h": 0.78,
+        "d": 0.68
+      },
+      "color": "#fafafa",
+      "roomId": "room-v9ycc2bk"
+    },
+    "obj-mwd09sy3-1h": {
+      "id": "obj-mwd09sy3-1h",
+      "catalogId": "bathroom-sink",
+      "name": "Bathroom Sink",
+      "category": "bathroom",
+      "position": {
+        "x": 4.35,
+        "y": 0,
+        "z": 0.32
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.6,
+        "h": 0.85,
+        "d": 0.45
+      },
+      "color": "#fafafa",
+      "roomId": "room-v9ycc2bk"
+    },
+    "obj-mwd09sy4-1i": {
+      "id": "obj-mwd09sy4-1i",
+      "catalogId": "mirror",
+      "name": "Mirror",
+      "category": "bathroom",
+      "position": {
+        "x": 4.35,
+        "y": 1.1,
+        "z": 0.12
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.7,
+        "h": 0.9,
+        "d": 0.04
+      },
+      "color": "#cfdfe6",
+      "roomId": "room-v9ycc2bk"
+    },
+    "obj-mwd09sy4-1j": {
+      "id": "obj-mwd09sy4-1j",
+      "catalogId": "single-bed",
+      "name": "Single Bed",
+      "category": "bedroom",
+      "position": {
+        "x": 3.3,
+        "y": 0,
+        "z": 3.6
+      },
+      "rotation": 3.141592653589793,
+      "size": {
+        "w": 1,
+        "h": 0.8,
+        "d": 2
+      },
+      "color": "#8d9bab",
+      "roomId": "room-ivyjuklo"
+    },
+    "obj-mwd09sy4-1k": {
+      "id": "obj-mwd09sy4-1k",
+      "catalogId": "wardrobe",
+      "name": "Wardrobe",
+      "category": "bedroom",
+      "position": {
+        "x": 4.4,
+        "y": 0,
+        "z": 3.2
+      },
+      "rotation": 1.5707963267948966,
+      "size": {
+        "w": 1.4,
+        "h": 2.1,
+        "d": 0.6
+      },
+      "color": "#a9794f",
+      "roomId": "room-ivyjuklo"
+    },
+    "obj-mwd09sy4-1l": {
+      "id": "obj-mwd09sy4-1l",
+      "catalogId": "nightstand",
+      "name": "Nightstand",
+      "category": "bedroom",
+      "position": {
+        "x": 4.05,
+        "y": 0,
+        "z": 4.42
+      },
+      "rotation": 3.141592653589793,
+      "size": {
+        "w": 0.45,
+        "h": 0.55,
+        "d": 0.4
+      },
+      "color": "#a9794f",
+      "roomId": "room-ivyjuklo"
+    },
+    "obj-mwd09sy4-1m": {
+      "id": "obj-mwd09sy4-1m",
+      "catalogId": "laundry-sink",
+      "name": "Laundry Sink",
+      "category": "laundry",
+      "position": {
+        "x": 5.15,
+        "y": 0,
+        "z": 0.4
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.6,
+        "h": 0.9,
+        "d": 0.5
+      },
+      "color": "#f3f3f1",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1n": {
+      "id": "obj-mwd09sy4-1n",
+      "catalogId": "washing-machine",
+      "name": "Washing Machine",
+      "category": "laundry",
+      "position": {
+        "x": 5.15,
+        "y": 0,
+        "z": 1.1
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.6,
+        "h": 0.85,
+        "d": 0.6
+      },
+      "color": "#f3f3f1",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1o": {
+      "id": "obj-mwd09sy4-1o",
+      "catalogId": "refrigerator",
+      "name": "Refrigerator",
+      "category": "kitchen",
+      "position": {
+        "x": 6.83,
+        "y": 0,
+        "z": 0.47
+      },
+      "rotation": 1.5707963267948966,
+      "size": {
+        "w": 0.7,
+        "h": 1.85,
+        "d": 0.7
+      },
+      "color": "#8d9398",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1p": {
+      "id": "obj-mwd09sy4-1p",
+      "catalogId": "kitchen-sink",
+      "name": "Kitchen Sink",
+      "category": "kitchen",
+      "position": {
+        "x": 6.88,
+        "y": 0,
+        "z": 1.4
+      },
+      "rotation": 1.5707963267948966,
+      "size": {
+        "w": 0.9,
+        "h": 0.9,
+        "d": 0.6
+      },
+      "color": "#b9bdc2",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1q": {
+      "id": "obj-mwd09sy4-1q",
+      "catalogId": "countertop",
+      "name": "Countertop",
+      "category": "kitchen",
+      "position": {
+        "x": 6.88,
+        "y": 0,
+        "z": 2.25
+      },
+      "rotation": 1.5707963267948966,
+      "size": {
+        "w": 0.7,
+        "h": 0.9,
+        "d": 0.6
+      },
+      "color": "#cfc9bf",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1r": {
+      "id": "obj-mwd09sy4-1r",
+      "catalogId": "stove",
+      "name": "Stove / Oven",
+      "category": "kitchen",
+      "position": {
+        "x": 6.87,
+        "y": 0,
+        "z": 2.95
+      },
+      "rotation": 1.5707963267948966,
+      "size": {
+        "w": 0.6,
+        "h": 0.9,
+        "d": 0.62
+      },
+      "color": "#8d9398",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1s": {
+      "id": "obj-mwd09sy4-1s",
+      "catalogId": "dining-table",
+      "name": "Dining Table",
+      "category": "kitchen",
+      "position": {
+        "x": 5.85,
+        "y": 0,
+        "z": 2.15
+      },
+      "rotation": 0,
+      "size": {
+        "w": 1.1,
+        "h": 0.75,
+        "d": 0.75
+      },
+      "color": "#a9794f",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1t": {
+      "id": "obj-mwd09sy4-1t",
+      "catalogId": "dining-chair",
+      "name": "Dining Chair",
+      "category": "kitchen",
+      "position": {
+        "x": 5.85,
+        "y": 0,
+        "z": 1.45
+      },
+      "rotation": 0,
+      "size": {
+        "w": 0.45,
+        "h": 0.9,
+        "d": 0.48
+      },
+      "color": "#6b4a2f",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1u": {
+      "id": "obj-mwd09sy4-1u",
+      "catalogId": "dining-chair",
+      "name": "Dining Chair",
+      "category": "kitchen",
+      "position": {
+        "x": 5.85,
+        "y": 0,
+        "z": 2.85
+      },
+      "rotation": 3.141592653589793,
+      "size": {
+        "w": 0.45,
+        "h": 0.9,
+        "d": 0.48
+      },
+      "color": "#6b4a2f",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1v": {
+      "id": "obj-mwd09sy4-1v",
+      "catalogId": "dining-chair",
+      "name": "Dining Chair",
+      "category": "kitchen",
+      "position": {
+        "x": 5.03,
+        "y": 0,
+        "z": 2.15
+      },
+      "rotation": -1.5707963267948966,
+      "size": {
+        "w": 0.45,
+        "h": 0.9,
+        "d": 0.48
+      },
+      "color": "#6b4a2f",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1w": {
+      "id": "obj-mwd09sy4-1w",
+      "catalogId": "sofa",
+      "name": "Sofa",
+      "category": "living",
+      "position": {
+        "x": 6.2,
+        "y": 0,
+        "z": 4.22
+      },
+      "rotation": 3.141592653589793,
+      "size": {
+        "w": 2.1,
+        "h": 0.82,
+        "d": 0.9
+      },
+      "color": "#6e7a88",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1x": {
+      "id": "obj-mwd09sy4-1x",
+      "catalogId": "coffee-table",
+      "name": "Coffee Table",
+      "category": "living",
+      "position": {
+        "x": 5.95,
+        "y": 0,
+        "z": 3.45
+      },
+      "rotation": 0,
+      "size": {
+        "w": 1.1,
+        "h": 0.42,
+        "d": 0.6
+      },
+      "color": "#a9794f",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1y": {
+      "id": "obj-mwd09sy4-1y",
+      "catalogId": "tv-stand",
+      "name": "TV Stand",
+      "category": "living",
+      "position": {
+        "x": 4.98,
+        "y": 0,
+        "z": 3.7
+      },
+      "rotation": -1.5707963267948966,
+      "size": {
+        "w": 1.6,
+        "h": 0.45,
+        "d": 0.4
+      },
+      "color": "#6b4a2f",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-1z": {
+      "id": "obj-mwd09sy4-1z",
+      "catalogId": "tv",
+      "name": "TV",
+      "category": "living",
+      "position": {
+        "x": 4.9,
+        "y": 0.45,
+        "z": 3.7
+      },
+      "rotation": -1.5707963267948966,
+      "size": {
+        "w": 1.25,
+        "h": 0.72,
+        "d": 0.08
+      },
+      "color": "#2b2d31",
+      "roomId": "room-lztde94b"
+    },
+    "obj-mwd09sy4-20": {
+      "id": "obj-mwd09sy4-20",
+      "catalogId": "armchair",
+      "name": "Armchair",
+      "category": "living",
+      "position": {
+        "x": 6.6,
+        "y": 0,
+        "z": 5.25
+      },
+      "rotation": 3.141592653589793,
+      "size": {
+        "w": 0.9,
+        "h": 0.8,
+        "d": 0.88
+      },
+      "color": "#8a7b6b",
+      "roomId": "room-pabhttqv"
+    }
+  },
+  "defaults": {
+    "wallHeight": 2.6,
+    "wallThickness": 0.15,
+    "wallColor": "#ece7df"
+  }
+}
