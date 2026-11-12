@@ -92,6 +92,18 @@ globally or one at a time, the roof toggled, and any room isolated or focused.
 one, **Export** / **Import** move it as a JSON file, **Reset** clears
 everything. Work is autosaved continuously and restored on reload.
 
+### Example project
+
+`examples/apartamento-2-dormitorios.json` is a two-bedroom apartment traced
+from a real floor plan — 6 rooms (two bedrooms, bathroom, hall, open living /
+kitchen and a terrace), 8 doors and windows and 26 pieces of furniture. Press
+**Import** and pick the file to open it.
+
+Room dimensions follow the plan's printed measurements (bedroom 1 is
+2.40 × 2.90 m, the bathroom 2.09 × 1.09 m, the living/kitchen strip
+2.40 × 4.65 m). Areas shown in the app are measured to the wall centre-lines,
+so they read slightly larger than those clear dimensions.
+
 ## Architecture
 
 ```
