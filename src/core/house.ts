@@ -41,6 +41,10 @@ export const DEFAULTS = {
   window: { width: 1.2, height: 1.2, sill: 0.9 },
   /** snap radius in meters, used for vertex/wall snapping */
   snapTolerance: 0.25,
+  /** furniture is positioned and sized to the centimetre, not to the grid */
+  objectStep: 0.01,
+  /** furniture rotates in 1° steps */
+  objectAngleStep: Math.PI / 180,
 }
 
 export function createHouse(name = 'Untitled House'): House {

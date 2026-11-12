@@ -2,9 +2,13 @@ import { useStore } from '../store/useStore'
 import { ROOM_TYPES, type RoomType, roomTypeLabel } from '../types/house'
 import { ColorField, NumberField, Row, SelectField, TextField } from './fields'
 import { degrees, dist, formatArea, formatMeters, radians } from '../core/geometry'
-import { openingsForWall, wallAngle, wallEnds, wallLength, totalFloorArea } from '../core/house'
+import { DEFAULTS, openingsForWall, wallAngle, wallEnds, wallLength, totalFloorArea } from '../core/house'
 import { CATEGORY_LABELS, CATALOG_BY_ID } from '../catalog/catalog'
 import { FLOOR_COLORS, MATERIAL_OPTIONS, WALL_COLORS } from '../catalog/palette'
+
+/** Furniture is edited to the centimetre and to the degree. */
+const STEP = DEFAULTS.objectStep
+const ANGLE_STEP = 1
 
 export function RightSidebar() {
   const house = useStore((s) => s.house)
@@ -226,10 +230,10 @@ function ObjectPanel({ objectId }: { objectId: string }) {
 
       <h3>Dimensions</h3>
       <Row>
-        <NumberField label="Width" value={obj.size.w} min={0.05} onChange={(v) => setObjectProp(objectId, { size: { ...obj.size, w: v } })} />
-        <NumberField label="Height" value={obj.size.h} min={0.05} onChange={(v) => setObjectProp(objectId, { size: { ...obj.size, h: v } })} />
+        <NumberField label="Width" value={obj.size.w} min={0.05} step={STEP} onChange={(v) => setObjectProp(objectId, { size: { ...obj.size, w: v } })} />
+        <NumberField label="Height" value={obj.size.h} min={0.05} step={STEP} onChange={(v) => setObjectProp(objectId, { size: { ...obj.size, h: v } })} />
       </Row>
-      <NumberField label="Depth" value={obj.size.d} min={0.05} onChange={(v) => setObjectProp(objectId, { size: { ...obj.size, d: v } })} />
+      <NumberField label="Depth" value={obj.size.d} min={0.05} step={STEP} onChange={(v) => setObjectProp(objectId, { size: { ...obj.size, d: v } })} />
       {item && (
         <button
           type="button"
@@ -242,20 +246,21 @@ function ObjectPanel({ objectId }: { objectId: string }) {
 
       <h3>Position</h3>
       <Row>
-        <NumberField label="X" value={obj.position.x} onChange={(v) => setObjectProp(objectId, { position: { ...obj.position, x: v } })} />
-        <NumberField label="Z" value={obj.position.z} onChange={(v) => setObjectProp(objectId, { position: { ...obj.position, z: v } })} />
+        <NumberField label="X" value={obj.position.x} step={STEP} onChange={(v) => setObjectProp(objectId, { position: { ...obj.position, x: v } })} />
+        <NumberField label="Z" value={obj.position.z} step={STEP} onChange={(v) => setObjectProp(objectId, { position: { ...obj.position, z: v } })} />
       </Row>
       <NumberField
         label="Y (height off floor)"
         value={obj.position.y}
         min={0}
+        step={STEP}
         onChange={(v) => setObjectProp(objectId, { position: { ...obj.position, y: v } })}
       />
       <NumberField
         label="Rotation (yaw)"
         value={degrees(obj.rotation)}
         unit="°"
-        step={5}
+        step={ANGLE_STEP}
         digits={1}
         onChange={(v) => setObjectProp(objectId, { rotation: radians(v) })}
       />
@@ -264,7 +269,7 @@ function ObjectPanel({ objectId }: { objectId: string }) {
           label="Tilt X"
           value={degrees(obj.tilt.x)}
           unit="°"
-          step={5}
+          step={ANGLE_STEP}
           digits={1}
           onChange={(v) => setObjectProp(objectId, { tilt: { ...obj.tilt, x: radians(v) } })}
         />
@@ -272,7 +277,7 @@ function ObjectPanel({ objectId }: { objectId: string }) {
           label="Tilt Z"
           value={degrees(obj.tilt.z)}
           unit="°"
-          step={5}
+          step={ANGLE_STEP}
           digits={1}
           onChange={(v) => setObjectProp(objectId, { tilt: { ...obj.tilt, z: radians(v) } })}
         />

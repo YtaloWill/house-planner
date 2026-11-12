@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from 'react'
 import { useStore } from '../store/useStore'
 import type { Vec2 } from '../types/house'
-import { degrees, dist, formatArea, formatMeters, polygonCentroid } from '../core/geometry'
+import { degrees, dist, formatArea, formatMeters, polygonCentroid, roundTo } from '../core/geometry'
 import {
   DEFAULTS,
   findWallNear,
@@ -257,8 +257,9 @@ export function Canvas2D() {
       let x = raw.x + drag.offset.x
       let y = raw.y + drag.offset.y
       if (grid.snap) {
-        x = Math.round(x / grid.size) * grid.size
-        y = Math.round(y / grid.size) * grid.size
+        // Furniture moves to the centimetre; the grid governs the structure.
+        x = roundTo(x, DEFAULTS.objectStep)
+        y = roundTo(y, DEFAULTS.objectStep)
       }
       setObjectProp(drag.objectId, { position: { x, y: obj.position.y, z: y } })
       return

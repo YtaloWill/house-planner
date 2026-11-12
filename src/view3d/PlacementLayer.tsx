@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { ThreeEvent } from '@react-three/fiber'
 import { useStore } from '../store/useStore'
+import { DEFAULTS } from '../core/house'
 import { resolvePlacement, type PlacementResult } from '../core/placement'
 import { FurnitureModel } from '../catalog/models'
 import { objectCorners } from '../editor2d/hit'
@@ -41,7 +42,8 @@ export function PlacementLayer() {
       { id: placing.id, size: placing.size },
       { x: event.point.x, y: event.point.z },
       {
-        gridSize: grid.size,
+        // Furniture lands on the centimetre, like every other object move.
+        gridSize: DEFAULTS.objectStep,
         gridSnap: grid.snap,
         snapToWalls,
         constrainToHouse,

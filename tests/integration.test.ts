@@ -9,7 +9,7 @@ import assert from 'node:assert/strict'
 import { useStore } from '../src/store/useStore.ts'
 import { CATALOG_BY_ID } from '../src/catalog/catalog.ts'
 import { houseToJSON, parseHouse } from '../src/core/persistence.ts'
-import { addOpening, openingsForWall, wallLength, findWallNear, snapPoint } from '../src/core/house.ts'
+import { addOpening, openingsForWall, wallLength, findWallNear, snapPoint, DEFAULTS } from '../src/core/house.ts'
 import { wallPieces } from '../src/view3d/wallGeometry.ts'
 import { resolvePlacement } from '../src/core/placement.ts'
 import { hitTest } from '../src/editor2d/hit.ts'
@@ -183,6 +183,29 @@ test('placing furniture records the room, and overlaps are reported', () => {
   })
   assert.ok(probe.collisions.length > 0)
   assert.equal(probe.reason, 'Overlaps another object')
+})
+
+test('furniture snaps to the centimetre, not to the drawing grid', () => {
+  s().newProject()
+  drawRectangle(0, 0, 6, 4)
+  const options = {
+    gridSize: DEFAULTS.objectStep,
+    gridSnap: true,
+    snapToWalls: false,
+    constrainToHouse: true,
+    rotation: 0,
+  }
+  const dropped = resolvePlacement(s().house, CATALOG_BY_ID.sofa, { x: 3.137, y: 2.482 }, options)
+  assert.equal(dropped.position.x, 3.14)
+  assert.equal(dropped.position.z, 2.48)
+
+  // a 25 cm grid would have rounded the same point to 3.25 / 2.50
+  const onGrid = resolvePlacement(s().house, CATALOG_BY_ID.sofa, { x: 3.137, y: 2.482 }, { ...options, gridSize: 0.25 })
+  assert.equal(onGrid.position.x, 3.25)
+  assert.equal(onGrid.position.z, 2.5)
+
+  assert.equal(DEFAULTS.objectStep, 0.01)
+  assert.ok(Math.abs(DEFAULTS.objectAngleStep - Math.PI / 180) < 1e-12)
 })
 
 test('object properties can be edited numerically', () => {

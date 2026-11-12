@@ -4,7 +4,7 @@ import { TransformControls } from '@react-three/drei'
 import type { ThreeEvent } from '@react-three/fiber'
 import { useStore } from '../store/useStore'
 import { FurnitureModel } from '../catalog/models'
-import { overlappingObjects } from '../core/house'
+import { DEFAULTS, overlappingObjects } from '../core/house'
 
 export function Furniture3D() {
   const house = useStore((s) => s.house)
@@ -116,8 +116,8 @@ export function Furniture3D() {
         <TransformControls
           object={target}
           mode={gizmo}
-          translationSnap={grid.snap ? grid.size : undefined}
-          rotationSnap={grid.snap ? Math.PI / 12 : undefined}
+          translationSnap={grid.snap ? DEFAULTS.objectStep : undefined}
+          rotationSnap={grid.snap ? DEFAULTS.objectAngleStep : undefined}
           onMouseDown={() => pushHistory()}
           onObjectChange={() => {
             if (gizmo !== 'scale') commitFromTarget(gizmo)
