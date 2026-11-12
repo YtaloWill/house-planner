@@ -252,13 +252,36 @@ function ObjectPanel({ objectId }: { objectId: string }) {
         onChange={(v) => setObjectProp(objectId, { position: { ...obj.position, y: v } })}
       />
       <NumberField
-        label="Rotation"
+        label="Rotation (yaw)"
         value={degrees(obj.rotation)}
         unit="°"
         step={5}
         digits={1}
         onChange={(v) => setObjectProp(objectId, { rotation: radians(v) })}
       />
+      <Row>
+        <NumberField
+          label="Tilt X"
+          value={degrees(obj.tilt.x)}
+          unit="°"
+          step={5}
+          digits={1}
+          onChange={(v) => setObjectProp(objectId, { tilt: { ...obj.tilt, x: radians(v) } })}
+        />
+        <NumberField
+          label="Tilt Z"
+          value={degrees(obj.tilt.z)}
+          unit="°"
+          step={5}
+          digits={1}
+          onChange={(v) => setObjectProp(objectId, { tilt: { ...obj.tilt, z: radians(v) } })}
+        />
+      </Row>
+      {(obj.tilt.x !== 0 || obj.tilt.z !== 0) && (
+        <button type="button" onClick={() => setObjectProp(objectId, { tilt: { x: 0, z: 0 } })}>
+          Stand upright
+        </button>
+      )}
 
       <h3>Material</h3>
       <ColorField

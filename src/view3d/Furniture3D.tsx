@@ -52,8 +52,11 @@ export function Furniture3D() {
     }
 
     if (mode === 'rotate') {
-      target.rotation.set(0, target.rotation.y, 0)
-      setObjectPropLive(selectedId, { rotation: -target.rotation.y })
+      // Yaw drives the floor-plan footprint; X and Z are kept as tilt.
+      setObjectPropLive(selectedId, {
+        rotation: -target.rotation.y,
+        tilt: { x: target.rotation.x, z: target.rotation.z },
+      })
       return
     }
 
@@ -89,7 +92,7 @@ export function Furniture3D() {
                 : undefined
             }
             position={[obj.position.x, obj.position.y, obj.position.z]}
-            rotation={[0, -obj.rotation, 0]}
+            rotation={[obj.tilt.x, -obj.rotation, obj.tilt.z]}
             onClick={onClick}
           >
             <FurnitureModel
@@ -115,7 +118,6 @@ export function Furniture3D() {
           mode={gizmo}
           translationSnap={grid.snap ? grid.size : undefined}
           rotationSnap={grid.snap ? Math.PI / 12 : undefined}
-          showY={gizmo !== 'rotate'}
           onMouseDown={() => pushHistory()}
           onObjectChange={() => {
             if (gizmo !== 'scale') commitFromTarget(gizmo)

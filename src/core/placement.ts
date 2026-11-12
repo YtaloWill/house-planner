@@ -81,6 +81,7 @@ export function resolvePlacement(
     category: 'general',
     position: { x: center.x, y: 0, z: center.y },
     rotation,
+    tilt: { x: 0, z: 0 },
     size: { ...item.size },
     color: '#ffffff',
   }

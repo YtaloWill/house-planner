@@ -81,8 +81,10 @@ export interface FurnitureObject {
   category: FurnitureCategory
   /** world position; x/z are the footprint centre, y is the bottom of the object */
   position: Vec3
-  /** radians, around world Y */
+  /** radians, around world Y — the yaw that drives the 2D footprint */
   rotation: number
+  /** radians, tilt around world X and Z; both 0 for an upright object */
+  tilt: { x: number; z: number }
   /** meters */
   size: { w: number; h: number; d: number }
   color: string

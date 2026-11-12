@@ -484,6 +484,7 @@ export function addObject(
     category: item.category,
     position: { ...position },
     rotation,
+    tilt: { x: 0, z: 0 },
     size: { ...item.size },
     color: item.color,
   }
@@ -502,6 +503,7 @@ export function duplicateObject(h: House, id: string): string | null {
   const copy: FurnitureObject = {
     ...source,
     id: uid('obj'),
+    tilt: { ...source.tilt },
     position: { ...source.position, x: source.position.x + 0.3, z: source.position.z + 0.3 },
     size: { ...source.size },
   }

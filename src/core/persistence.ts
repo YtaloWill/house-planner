@@ -123,6 +123,10 @@ export function parseHouse(raw: unknown): House {
           z: num(position.z, 0),
         },
         rotation: num(value.rotation, 0),
+        tilt: {
+          x: num(isObject(value.tilt) ? value.tilt.x : undefined, 0),
+          z: num(isObject(value.tilt) ? value.tilt.z : undefined, 0),
+        },
         size: {
           w: Math.max(0.05, num(size.w, 1)),
           h: Math.max(0.05, num(size.h, 1)),

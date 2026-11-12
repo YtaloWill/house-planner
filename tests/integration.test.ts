@@ -201,6 +201,43 @@ test('object properties can be edited numerically', () => {
   assert.equal(obj.color, '#334455')
 })
 
+test('objects can be tilted around X and Z, and tilt survives a round trip', () => {
+  s().newProject()
+  drawRectangle(0, 0, 6, 4)
+  s().beginPlacing(CATALOG_BY_ID.tv)
+  s().placeObject({ x: 3, y: 0.5, z: 2 }, 0)
+  const id = Object.keys(s().house.objects)[0]
+  assert.deepEqual(s().house.objects[id].tilt, { x: 0, z: 0 })
+
+  s().setObjectProp(id, { rotation: Math.PI / 4, tilt: { x: 0.15, z: -0.3 } })
+  const tilted = s().house.objects[id]
+  assert.ok(Math.abs(tilted.rotation - Math.PI / 4) < 1e-9)
+  assert.deepEqual(tilted.tilt, { x: 0.15, z: -0.3 })
+
+  const restored = parseHouse(houseToJSON(s().house))
+  assert.deepEqual(Object.values(restored.objects)[0].tilt, { x: 0.15, z: -0.3 })
+
+  // duplicates get their own tilt, not a shared reference
+  s().duplicateSelected()
+  const copyId = Object.keys(s().house.objects).find((other) => other !== id)
+  assert.ok(copyId)
+  s().setObjectProp(copyId, { tilt: { x: 0, z: 0 } })
+  assert.deepEqual(s().house.objects[id].tilt, { x: 0.15, z: -0.3 })
+})
+
+test('projects saved before tilt existed still load', () => {
+  const legacy = {
+    meta: { name: 'Legacy' },
+    vertices: { a: { x: 0, y: 0 }, b: { x: 3, y: 0 } },
+    walls: { w: { a: 'a', b: 'b', height: 2.5, thickness: 0.15, color: '#fff' } },
+    objects: {
+      o: { catalogId: 'sofa', name: 'Sofa', category: 'living', position: { x: 1, y: 0, z: 1 }, rotation: 0.5, size: { w: 2, h: 0.8, d: 0.9 }, color: '#888' },
+    },
+  }
+  const restored = parseHouse(JSON.stringify(legacy))
+  assert.deepEqual(Object.values(restored.objects)[0].tilt, { x: 0, z: 0 })
+})
+
 test('undo and redo step through structural and furniture edits', () => {
   s().newProject()
   drawRectangle(0, 0, 6, 4)
